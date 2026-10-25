@@ -1,0 +1,10 @@
+#pragma code_page(65001)
+
+1 24 "app.manifest"
+
+101 RCDATA "Tailscale-사용설명서.txt"
+
+STRINGTABLE
+BEGIN
+    1 "원격 카메라"
+END
