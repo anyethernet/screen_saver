@@ -28,6 +28,8 @@ constexpr int IDC_TS_STATUS = 1008;
 constexpr int IDC_TS_UP = 1009;
 constexpr int IDC_TS_DOWN = 1010;
 constexpr int IDC_TS_HELP = 1011;
+constexpr int IDC_WALL_ON = 1012;
+constexpr int IDC_WALL_OFF = 1013;
 constexpr int IDC_GUIDE_TEXT = 1101;
 constexpr UINT WM_APP_TEST = WM_APP + 1;
 constexpr UINT WM_APP_TAILSCALE = WM_APP + 2;
@@ -120,10 +122,10 @@ std::vector<unsigned char> BuildSettingsTemplate() {
     AddShort(buffer, 0);
     AddShort(buffer, 0);
     AddShort(buffer, 312);
-    AddShort(buffer, 254);
+    AddShort(buffer, 258);
     AddWord(buffer, 0);
     AddWord(buffer, 0);
-    AddString(buffer, L"원격 카메라 화면 보호기");
+    AddString(buffer, L"Webcam & Screen Saver");
     AddWord(buffer, 9);
     AddString(buffer, L"Segoe UI");
 
@@ -136,7 +138,7 @@ std::vector<unsigned char> BuildSettingsTemplate() {
     constexpr WORD kEditClass = 0x0081;
     constexpr WORD kStaticClass = 0x0082;
 
-    AddItem(buffer, count, kStatic, 0, 8, 8, 280, 10, 0xFFFF, kStaticClass, L"영상 주소");
+    AddItem(buffer, count, kStatic, 0, 8, 8, 280, 10, 0xFFFF, kStaticClass, L"카메라 IP");
     AddItem(buffer, count, kEdit, WS_EX_CLIENTEDGE, 8, 20, 296, 14, IDC_URL, kEditClass, L"");
     AddItem(
         buffer,
@@ -149,20 +151,21 @@ std::vector<unsigned char> BuildSettingsTemplate() {
         24,
         0xFFFF,
         kStaticClass,
-        L"Tailscale 주소와 공유기 포트포워딩 주소를 같은 칸에 넣습니다.\n예: http://100.64.0.2:8787/api/v1/stream.mjpeg");
+        L"집 카메라 폰에 나온 IP만 넣으면 됩니다.\n예: 100.64.0.2");
     AddItem(buffer, count, kStatic, 0, 8, 66, 280, 10, 0xFFFF, kStaticClass, L"접속 토큰");
     AddItem(buffer, count, kEdit | ES_PASSWORD, WS_EX_CLIENTEDGE, 8, 78, 296, 14, IDC_TOKEN, kEditClass, L"");
     AddItem(buffer, count, kCheck, 0, 8, 98, 90, 12, IDC_SHOWTOKEN, kButtonClass, L"토큰 표시");
-    AddItem(buffer, count, kCheck, 0, 8, 116, 180, 12, IDC_FILL, kButtonClass, L"화면을 채워 자르기");
-    AddItem(buffer, count, kCheck, 0, 8, 134, 220, 12, IDC_INSECURE, kButtonClass, L"HTTPS 자체 서명 인증서 허용");
-    AddItem(buffer, count, kStatic, 0, 8, 156, 296, 12, IDC_TS_STATUS, kStaticClass, L"Tailscale: 확인 중…");
-    AddItem(buffer, count, kButton, 0, 8, 172, 64, 16, IDC_TS_UP, kButtonClass, L"연결");
-    AddItem(buffer, count, kButton, 0, 78, 172, 84, 16, IDC_TS_DOWN, kButtonClass, L"연결 끊기");
-    AddItem(buffer, count, kButton, 0, 170, 172, 76, 16, IDC_TS_HELP, kButtonClass, L"사용 설명");
-    AddItem(buffer, count, kButton, 0, 8, 198, 72, 16, IDC_TEST, kButtonClass, L"연결 테스트");
-    AddItem(buffer, count, kStatic, 0, 88, 201, 216, 12, IDC_STATUS, kStaticClass, L"");
-    AddItem(buffer, count, kButton | BS_DEFPUSHBUTTON, 0, 168, 226, 64, 16, IDOK, kButtonClass, L"저장");
-    AddItem(buffer, count, kButton, 0, 240, 226, 64, 16, IDCANCEL, kButtonClass, L"취소");
+    AddItem(buffer, count, kCheck, 0, 8, 116, 220, 12, IDC_INSECURE, kButtonClass, L"HTTPS 자체 서명 인증서 허용");
+    AddItem(buffer, count, kStatic, 0, 8, 138, 296, 12, IDC_TS_STATUS, kStaticClass, L"Tailscale: 확인 중…");
+    AddItem(buffer, count, kButton, 0, 8, 154, 64, 16, IDC_TS_UP, kButtonClass, L"연결");
+    AddItem(buffer, count, kButton, 0, 78, 154, 84, 16, IDC_TS_DOWN, kButtonClass, L"연결 끊기");
+    AddItem(buffer, count, kButton, 0, 170, 154, 76, 16, IDC_TS_HELP, kButtonClass, L"사용 설명");
+    AddItem(buffer, count, kButton, 0, 8, 180, 72, 16, IDC_TEST, kButtonClass, L"연결 테스트");
+    AddItem(buffer, count, kStatic, 0, 88, 183, 216, 12, IDC_STATUS, kStaticClass, L"");
+    AddItem(buffer, count, kButton, 0, 8, 206, 108, 16, IDC_WALL_ON, kButtonClass, L"배경으로 보기");
+    AddItem(buffer, count, kButton, 0, 122, 206, 80, 16, IDC_WALL_OFF, kButtonClass, L"배경 끄기");
+    AddItem(buffer, count, kButton | BS_DEFPUSHBUTTON, 0, 168, 230, 64, 16, IDOK, kButtonClass, L"저장");
+    AddItem(buffer, count, kButton, 0, 240, 230, 64, 16, IDCANCEL, kButtonClass, L"취소");
 
     buffer[8] = static_cast<unsigned char>(count & 0xFF);
     buffer[9] = static_cast<unsigned char>((count >> 8) & 0xFF);
@@ -366,7 +369,7 @@ void ShowTailscaleGuide(HWND parent) {
     if (result == -1) {
         wchar_t message[96];
         swprintf_s(message, L"설명 창을 열지 못했습니다. (%lu)", GetLastError());
-        MessageBoxW(parent, message, L"원격 카메라", MB_ICONERROR);
+        MessageBoxW(parent, message, L"Webcam & Screen Saver", MB_ICONERROR);
     }
 }
 
@@ -393,13 +396,43 @@ void StartTailscale(DialogState* state, HWND hwnd, TailscaleAction action) {
     state->tailscaleThread = reinterpret_cast<HANDLE>(thread);
 }
 
+bool LaunchSaver(const wchar_t* argument) {
+    wchar_t path[MAX_PATH]{};
+    if (!GetModuleFileNameW(nullptr, path, MAX_PATH)) {
+        return false;
+    }
+    std::wstring command = L"\"";
+    command += path;
+    command += L"\" ";
+    command += argument;
+    STARTUPINFOW startup{};
+    startup.cb = sizeof(startup);
+    PROCESS_INFORMATION process{};
+    std::vector<wchar_t> buffer(command.begin(), command.end());
+    buffer.push_back(L'\0');
+    if (!CreateProcessW(nullptr, buffer.data(), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startup, &process)) {
+        return false;
+    }
+    CloseHandle(process.hThread);
+    CloseHandle(process.hProcess);
+    return true;
+}
+
+void StopWallpaperWindow() {
+    HWND wallpaper = FindWindowW(L"RemoteCamSaverWindow", L"Webcam & Screen Saver Background");
+    if (wallpaper) {
+        PostMessageW(wallpaper, WM_CLOSE, 0, 0);
+    }
+}
+
 void StartTest(DialogState* state, HWND hwnd) {
     if (state->closing || state->thread) {
         return;
     }
     Settings settings = ReadDialogSettings(hwnd);
-    if (!StartsWithHttp(settings.url)) {
-        SetDlgItemTextW(hwnd, IDC_STATUS, L"http:// 또는 https:// 주소가 필요합니다.");
+    settings.url = NormalizeStreamUrl(settings.url);
+    if (settings.url.empty()) {
+        SetDlgItemTextW(hwnd, IDC_STATUS, L"카메라 IP를 입력하세요.");
         return;
     }
     state->stop = false;
@@ -427,7 +460,7 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
         state = reinterpret_cast<DialogState*>(lParam);
         SetWindowLongPtrW(hwnd, DWLP_USER, lParam);
         state->hwnd = hwnd;
-        SetDlgItemTextW(hwnd, IDC_URL, state->settings.url.c_str());
+        SetDlgItemTextW(hwnd, IDC_URL, DisplayAddress(state->settings.url).c_str());
         SetDlgItemTextW(hwnd, IDC_TOKEN, state->settings.token.c_str());
         CheckDlgButton(hwnd, IDC_FILL, state->settings.fill ? BST_CHECKED : BST_UNCHECKED);
         CheckDlgButton(hwnd, IDC_INSECURE, state->settings.allowInsecureTls ? BST_CHECKED : BST_UNCHECKED);
@@ -436,7 +469,7 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
             IDC_URL,
             EM_SETCUEBANNER,
             TRUE,
-            reinterpret_cast<LPARAM>(L"http://100.x.x.x:8787/api/v1/stream.mjpeg"));
+            reinterpret_cast<LPARAM>(L"100.x.x.x"));
         SendDlgItemMessageW(hwnd, IDC_TOKEN, EM_SETCUEBANNER, TRUE, reinterpret_cast<LPARAM>(L"카메라 폰에 표시된 토큰"));
         StartTailscale(state, hwnd, TailscaleAction::Status);
         return TRUE;
@@ -461,14 +494,37 @@ INT_PTR CALLBACK SettingsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
         case IDC_TS_HELP:
             ShowTailscaleGuide(hwnd);
             return TRUE;
-        case IDOK: {
+        case IDC_WALL_ON: {
             Settings settings = ReadDialogSettings(hwnd);
-            if (!settings.url.empty() && !StartsWithHttp(settings.url)) {
-                MessageBoxW(hwnd, L"주소는 http:// 또는 https:// 로 시작해야 합니다.", L"원격 카메라", MB_ICONWARNING);
+            settings.url = NormalizeStreamUrl(settings.url);
+            if (settings.url.empty()) {
+                SetDlgItemTextW(hwnd, IDC_STATUS, L"카메라 IP를 입력하세요.");
                 return TRUE;
             }
             if (!SaveSettings(settings)) {
-                MessageBoxW(hwnd, L"설정을 저장하지 못했습니다.", L"원격 카메라", MB_ICONERROR);
+                MessageBoxW(hwnd, L"설정을 저장하지 못했습니다.", L"Webcam & Screen Saver", MB_ICONERROR);
+                return TRUE;
+            }
+            if (FindWindowW(L"RemoteCamSaverWindow", L"Webcam & Screen Saver Background")) {
+                SetDlgItemTextW(hwnd, IDC_STATUS, L"바탕화면 영상이 이미 켜져 있습니다.");
+                return TRUE;
+            }
+            if (!LaunchSaver(L"/w")) {
+                SetDlgItemTextW(hwnd, IDC_STATUS, L"바탕화면을 켜지 못했습니다.");
+                return TRUE;
+            }
+            SetDlgItemTextW(hwnd, IDC_STATUS, L"아이콘 뒤에서 영상을 켭니다. 마우스는 그대로 쓸 수 있습니다.");
+            return TRUE;
+        }
+        case IDC_WALL_OFF:
+            StopWallpaperWindow();
+            SetDlgItemTextW(hwnd, IDC_STATUS, L"바탕화면 영상을 껐습니다.");
+            return TRUE;
+        case IDOK: {
+            Settings settings = ReadDialogSettings(hwnd);
+            settings.url = NormalizeStreamUrl(settings.url);
+            if (!SaveSettings(settings)) {
+                MessageBoxW(hwnd, L"설정을 저장하지 못했습니다.", L"Webcam & Screen Saver", MB_ICONERROR);
                 return TRUE;
             }
             CloseDialog(state, hwnd, IDOK);
@@ -617,6 +673,6 @@ void RunSettingsDialog(HINSTANCE instance, HWND parent) {
     if (result == -1) {
         wchar_t text[96];
         swprintf_s(text, L"설정 창을 열지 못했습니다. (%lu)", GetLastError());
-        MessageBoxW(parent, text, L"원격 카메라", MB_ICONERROR);
+        MessageBoxW(parent, text, L"Webcam & Screen Saver", MB_ICONERROR);
     }
 }

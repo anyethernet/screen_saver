@@ -1,0 +1,22 @@
+EN (en-US)
+First release of Webcam & Screen Saver.
+
+A phone at home sends the camera; watch from your phone away from home.
+Enter only the home camera IP to connect.
+Portrait and landscape follow how the phone is placed.
+Find home devices and turn them on or off from the viewer phone.
+The viewer phone can show the stream as a screensaver.
+While streaming, the home phone screen stays almost black.
+Windows screensaver installer: https://github.com/anyethernet/screen_saver/releases
+
+---
+KO (ko-KR)
+웹캠 & 화면 보호기 첫 출시입니다.
+
+집에 둔 폰이 카메라를 보내고, 밖에 있는 내 폰에서 봅니다.
+집 카메라 IP만 넣으면 연결됩니다.
+폰을 세우거나 눕히면 영상도 세로와 가로로 맞춰집니다.
+집 안의 기기를 찾아 밖 폰에서 켜고 끌 수 있습니다.
+보는 폰에서는 영상을 화면 보호기로 띄울 수 있습니다.
+송출 중에는 집 폰 화면을 거의 검게 켜 둡니다.
+Windows 화면 보호기: https://github.com/anyethernet/screen_saver/releases

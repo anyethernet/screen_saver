@@ -397,12 +397,9 @@ std::wstring RunMjpegStream(
     if (stop) {
         return L"";
     }
-    std::wstring url = TrimCopy(config.url);
+    std::wstring url = NormalizeStreamUrl(config.url);
     if (url.empty()) {
-        return L"영상 주소가 없습니다.";
-    }
-    if (!StartsWithHttp(url)) {
-        return L"주소는 http:// 또는 https:// 로 시작해야 합니다.";
+        return L"카메라 IP가 없습니다.";
     }
 
     UrlParts parts;
@@ -645,6 +642,20 @@ std::wstring TestMjpegStream(
 }
 
 std::wstring RunParserSelfTest() {
+    if (NormalizeStreamUrl(L"100.64.0.2") != L"http://100.64.0.2:8787/api/v1/stream.mjpeg") {
+        return L"bare ip was not expanded";
+    }
+    if (NormalizeStreamUrl(L"100.64.0.2:9000") != L"http://100.64.0.2:9000/api/v1/stream.mjpeg") {
+        return L"explicit port was not kept";
+    }
+    if (NormalizeStreamUrl(L"http://100.64.0.2:8787/api/v1/stream.mjpeg") !=
+        L"http://100.64.0.2:8787/api/v1/stream.mjpeg") {
+        return L"full url was rewritten";
+    }
+    if (DisplayAddress(L"http://100.64.0.2:8787/api/v1/stream.mjpeg") != L"100.64.0.2") {
+        return L"saved url was not shown as an ip";
+    }
+
     auto expect = [](bool condition, const wchar_t* message) -> std::wstring {
         return condition ? L"" : message;
     };

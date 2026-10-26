@@ -37,6 +37,7 @@ struct WindowData {
 struct App {
     HINSTANCE instance = nullptr;
     bool preview = false;
+    bool background = false;
     bool fill = false;
     std::wstring url;
     std::wstring token;
@@ -214,11 +215,11 @@ void PaintWindow(HWND hwnd) {
     int frameWidth = g_app->frameWidth;
     int frameHeight = g_app->frameHeight;
     status = g_app->status;
-    bool fill = g_app->fill;
     if (frame) {
         HDC frameDc = CreateCompatibleDC(memory);
         HBITMAP previous = static_cast<HBITMAP>(SelectObject(frameDc, frame));
-        RECT dest = FitRect(frameWidth, frameHeight, client, fill);
+        // 가로 모니터를 채운다. 세로 영상은 위아래가 잘리고, 가운데 가로 장면이 남는다.
+        RECT dest = FitRect(frameWidth, frameHeight, client, true);
         SetStretchBltMode(memory, HALFTONE);
         SetBrushOrgEx(memory, 0, 0, nullptr);
         StretchBlt(
@@ -291,18 +292,19 @@ LRESULT CALLBACK SaverProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
             DEFAULT_PITCH | FF_DONTCARE,
             L"Segoe UI");
         SetWindowLongPtrW(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(created));
-        if (created->preview) {
+        if (created->preview || g_app->background) {
             SetTimer(hwnd, 1, 200, nullptr);
         }
         return 0;
     }
     case WM_TIMER: {
-        if (data && data->preview) {
-            HWND parent = GetParent(hwnd);
-            if (parent) {
-                RECT parentClient;
-                GetClientRect(parent, &parentClient);
-                MoveWindow(hwnd, 0, 0, parentClient.right, parentClient.bottom, FALSE);
+        HWND parent = GetParent(hwnd);
+        if (parent && ((data && data->preview) || g_app->background)) {
+            RECT parentClient;
+            GetClientRect(parent, &parentClient);
+            MoveWindow(hwnd, 0, 0, parentClient.right, parentClient.bottom, FALSE);
+            if (g_app->background) {
+                SetWindowPos(hwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
             }
         }
         return 0;
@@ -313,13 +315,13 @@ LRESULT CALLBACK SaverProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
         PaintWindow(hwnd);
         return 0;
     case WM_SETCURSOR:
-        if (!g_app->preview) {
+        if (!g_app->preview && !g_app->background) {
             SetCursor(nullptr);
             return TRUE;
         }
         break;
     case WM_MOUSEMOVE:
-        if (!g_app->preview && InputIsArmed()) {
+        if (!g_app->preview && !g_app->background && InputIsArmed()) {
             int x = static_cast<short>(LOWORD(lParam));
             int y = static_cast<short>(HIWORD(lParam));
             if (!g_app->haveAnchor) {
@@ -336,7 +338,7 @@ LRESULT CALLBACK SaverProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
     case WM_LBUTTONDOWN:
     case WM_RBUTTONDOWN:
     case WM_MBUTTONDOWN:
-        if (!g_app->preview && InputIsArmed()) {
+        if (!g_app->preview && !g_app->background && InputIsArmed()) {
             QuitScreensaver();
         }
         return 0;
@@ -364,6 +366,61 @@ LRESULT CALLBACK SaverProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam
     return DefWindowProcW(hwnd, message, wParam, lParam);
 }
 
+HWND CreateWallpaperWindow(HINSTANCE instance, HWND parent) {
+    RECT bounds{};
+    GetClientRect(parent, &bounds);
+    HWND hwnd = CreateWindowExW(
+        WS_EX_NOACTIVATE,
+        kWindowClass,
+        L"Webcam & Screen Saver Background",
+        WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS,
+        0,
+        0,
+        bounds.right - bounds.left,
+        bounds.bottom - bounds.top,
+        parent,
+        nullptr,
+        instance,
+        nullptr);
+    if (hwnd) {
+        SetWindowPos(hwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    }
+    return hwnd;
+}
+
+struct WorkerSearch {
+    HWND worker = nullptr;
+};
+
+BOOL CALLBACK FindWorkerProc(HWND top, LPARAM param) {
+    auto* search = reinterpret_cast<WorkerSearch*>(param);
+    if (!FindWindowExW(top, nullptr, L"SHELLDLL_DefView", nullptr)) {
+        return TRUE;
+    }
+    HWND worker = FindWindowExW(nullptr, top, L"WorkerW", nullptr);
+    if (worker) {
+        search->worker = worker;
+    }
+    return TRUE;
+}
+
+HWND FindDesktopWorker() {
+    HWND progman = FindWindowW(L"Progman", nullptr);
+    if (!progman) {
+        return nullptr;
+    }
+    SendMessageTimeoutW(progman, 0x052C, 0, 0, SMTO_NORMAL, 1000, nullptr);
+    WorkerSearch search;
+    EnumWindows(FindWorkerProc, reinterpret_cast<LPARAM>(&search));
+    if (search.worker) {
+        return search.worker;
+    }
+    if (FindWindowExW(progman, nullptr, L"SHELLDLL_DefView", nullptr)) {
+        return progman;
+    }
+    return nullptr;
+}
+
 HWND CreateSaverWindow(HINSTANCE instance, HWND parent, const RECT& bounds, bool preview) {
     DWORD style = preview ? (WS_CHILD | WS_VISIBLE) : (WS_POPUP | WS_VISIBLE);
     DWORD exStyle = preview ? 0 : (WS_EX_TOPMOST | WS_EX_TOOLWINDOW);
@@ -374,7 +431,7 @@ HWND CreateSaverWindow(HINSTANCE instance, HWND parent, const RECT& bounds, bool
     return CreateWindowExW(
         exStyle,
         kWindowClass,
-        L"원격 카메라",
+        L"Webcam & Screen Saver",
         style,
         x,
         y,
@@ -407,9 +464,10 @@ void RegisterSaverClass(HINSTANCE instance) {
     RegisterClassExW(&windowClass);
 }
 
-int RunScreensaver(HINSTANCE instance, bool preview, HWND parent) {
+int RunScreensaver(HINSTANCE instance, bool preview, bool background, HWND parent) {
     g_app->instance = instance;
     g_app->preview = preview;
+    g_app->background = background;
     g_app->startTick = GetTickCount();
     RegisterSaverClass(instance);
 
@@ -419,7 +477,20 @@ int RunScreensaver(HINSTANCE instance, bool preview, HWND parent) {
     g_app->fill = settings.fill;
     g_app->insecure = settings.allowInsecureTls;
 
-    if (preview) {
+    if (background) {
+        HWND worker = FindDesktopWorker();
+        if (!worker) {
+            MessageBoxW(nullptr, L"바탕화면 위치를 찾지 못했습니다.", L"Webcam & Screen Saver", MB_ICONWARNING);
+            return 1;
+        }
+        HWND hwnd = CreateWallpaperWindow(instance, worker);
+        if (!hwnd) {
+            return 1;
+        }
+        EnterCriticalSection(&g_app->lock);
+        g_app->windows.push_back(hwnd);
+        LeaveCriticalSection(&g_app->lock);
+    } else if (preview) {
         RECT bounds{};
         GetClientRect(parent, &bounds);
         HWND hwnd = CreateSaverWindow(instance, parent, bounds, true);
@@ -442,7 +513,7 @@ int RunScreensaver(HINSTANCE instance, bool preview, HWND parent) {
     }
 
     if (TrimCopy(g_app->url).empty()) {
-        SetStatus(L"영상 주소가 없습니다.\n화면 보호기 설정에서 집 카메라 주소를 입력하세요.");
+        SetStatus(L"카메라 IP가 없습니다.\n화면 보호기 설정에서 집 카메라 IP를 입력하세요.");
     } else {
         uintptr_t thread = _beginthreadex(nullptr, 0, StreamThread, nullptr, 0, nullptr);
         g_app->thread = reinterpret_cast<HANDLE>(thread);
@@ -494,14 +565,14 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int) {
     Gdiplus::GdiplusStartupInput input;
     ULONG_PTR gdiplusToken = 0;
     if (Gdiplus::GdiplusStartup(&gdiplusToken, &input, nullptr) != Gdiplus::Ok) {
-        MessageBoxW(nullptr, L"그래픽 기능을 시작하지 못했습니다.", L"원격 카메라", MB_ICONERROR);
+        MessageBoxW(nullptr, L"그래픽 기능을 시작하지 못했습니다.", L"Webcam & Screen Saver", MB_ICONERROR);
         CoUninitialize();
         return 1;
     }
 
     int argc = 0;
     LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
-    enum class Mode { Config, Run, Preview };
+    enum class Mode { Config, Run, Preview, Wallpaper, StopWallpaper };
     Mode mode = Mode::Config;
     HWND parent = nullptr;
     if (argv) {
@@ -517,6 +588,10 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int) {
             std::wstring attached = arg.size() > 3 && arg[2] == L':' ? arg.substr(3) : L"";
             if (command == L's') {
                 mode = Mode::Run;
+            } else if (command == L'w') {
+                mode = Mode::Wallpaper;
+            } else if (command == L'q') {
+                mode = Mode::StopWallpaper;
             } else if (command == L'c') {
                 mode = Mode::Config;
                 if (attached.empty() && i + 1 < argc && argv[i + 1][0] != L'/' && argv[i + 1][0] != L'-') {
@@ -535,14 +610,20 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int) {
     }
 
     int result = 0;
-    if (mode == Mode::Config) {
+    if (mode == Mode::StopWallpaper) {
+        HWND wallpaper = FindWindowW(L"RemoteCamSaverWindow", L"Webcam & Screen Saver Background");
+        if (wallpaper) {
+            PostMessageW(wallpaper, WM_CLOSE, 0, 0);
+        }
+    } else if (mode == Mode::Config) {
         RunSettingsDialog(instance, parent);
     } else if (mode == Mode::Preview && !parent) {
         result = 0;
     } else {
         HANDLE mutex = nullptr;
-        if (mode == Mode::Run) {
-            mutex = CreateMutexW(nullptr, TRUE, L"Local\\RemoteCamSaver.Run");
+        const wchar_t* mutexName = mode == Mode::Wallpaper ? L"Local\\RemoteCamSaver.Wallpaper" : L"Local\\RemoteCamSaver.Run";
+        if (mode == Mode::Run || mode == Mode::Wallpaper) {
+            mutex = CreateMutexW(nullptr, TRUE, mutexName);
             if (GetLastError() == ERROR_ALREADY_EXISTS) {
                 if (mutex) {
                     CloseHandle(mutex);
@@ -554,7 +635,7 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int) {
         }
         App app;
         g_app = &app;
-        result = RunScreensaver(instance, mode == Mode::Preview, parent);
+        result = RunScreensaver(instance, mode == Mode::Preview, mode == Mode::Wallpaper, parent);
         g_app = nullptr;
         if (mutex) {
             CloseHandle(mutex);
