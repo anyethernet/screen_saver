@@ -6,8 +6,7 @@ import 'app_model.dart';
 const windowsReleasesUrl = 'https://github.com/anyethernet/screen_saver/releases';
 const windowsSetupUrl =
     'https://github.com/anyethernet/screen_saver/releases/latest/download/RemoteCamSaver-Setup.exe';
-const privacyPolicyUrl =
-    'https://gist.githubusercontent.com/anyethernet/8633eca9a78b92ba97d73dee95a6e06e/raw/privacy-policy.md';
+const privacyPolicyUrl = 'https://anyethernet.github.io/privacy-policy/Webcam_Saver/';
 
 class AppScope extends InheritedNotifier<AppModel> {
   const AppScope({required AppModel model, required super.child}) : super(notifier: model);

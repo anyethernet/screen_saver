@@ -1,10 +1,17 @@
 # Privacy Policy — Webcam & Screen Saver / 웹캠 & 화면 보호기
 
+Canonical public copy (Play Console URL):
+
+**https://anyethernet.github.io/privacy-policy/Webcam_Saver/**
+
 | | |
 | --- | --- |
 | **Publisher / 게시자** | [anyethernet](https://github.com/anyethernet) |
 | **Privacy administrator / 개인정보 처리 관리자** | Kim Judong |
 | **Contact / 문의** | [https://github.com/anyethernet](https://github.com/anyethernet) |
+| **App folder** | `Webcam_Saver` |
+
+Other apps can be added as sibling folders under https://github.com/anyethernet/privacy-policy (for example `Other_App/index.md`).
 
 Last updated / 최종 수정: 2026-10-27
 
@@ -39,11 +46,3 @@ Tailscale을 쓰는 경우 로그인과 연결은 Tailscale 앱의 계정으로 
 사용을 멈추면 앱을 삭제하면 됩니다. 개발사 쪽에 별도로 보관된 사용자 영상은 없습니다.
 
 Windows용 화면 보호기 설치 파일은 GitHub Releases에서 제공할 수 있습니다(저장소·릴리스 공개 설정에 따름).
-
----
-
-## Public URLs / 공개 주소
-
-- **GitHub Pages (Play Console):** https://anyethernet.github.io/privacy-policy/
-- **Public repository:** https://github.com/anyethernet/privacy-policy
-- **Raw Markdown:** https://raw.githubusercontent.com/anyethernet/privacy-policy/main/privacy-policy.md

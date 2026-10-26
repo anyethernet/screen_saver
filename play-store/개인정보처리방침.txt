@@ -1,9 +1,10 @@
 웹캠 & 화면 보호기 / Webcam & Screen Saver 개인정보처리방침
 
 플레이 콘솔 개인정보처리방침 URL (공개):
-https://anyethernet.github.io/privacy-policy/
+https://anyethernet.github.io/privacy-policy/Webcam_Saver/
 
-공개 저장소 (GitHub 대표 계정 anyethernet):
+앱별 목록(다른 앱은 같은 저장소에 폴더만 추가):
+https://anyethernet.github.io/privacy-policy/
 https://github.com/anyethernet/privacy-policy
 
 게시자: GitHub anyethernet (https://github.com/anyethernet)
