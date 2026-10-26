@@ -7,7 +7,7 @@ const windowsReleasesUrl = 'https://github.com/anyethernet/screen_saver/releases
 const windowsSetupUrl =
     'https://github.com/anyethernet/screen_saver/releases/latest/download/RemoteCamSaver-Setup.exe';
 const privacyPolicyUrl =
-    'https://raw.githubusercontent.com/anyethernet/screen_saver/main/docs/privacy-policy.md';
+    'https://gist.githubusercontent.com/anyethernet/8633eca9a78b92ba97d73dee95a6e06e/raw/privacy-policy.md';
 
 class AppScope extends InheritedNotifier<AppModel> {
   const AppScope({required AppModel model, required super.child}) : super(notifier: model);

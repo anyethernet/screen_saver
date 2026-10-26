@@ -1,6 +1,9 @@
 웹캠 & 화면 보호기 / Webcam & Screen Saver 개인정보처리방침
 
-정식 웹 문서(플레이 콘솔에 이 URL을 넣으세요):
+정식 웹 문서(플레이 콘솔에 이 URL을 넣으세요 — 공개 gist):
+https://gist.githubusercontent.com/anyethernet/8633eca9a78b92ba97d73dee95a6e06e/raw/privacy-policy.md
+
+저장소 동일본(private면 로그인 필요):
 https://raw.githubusercontent.com/anyethernet/screen_saver/main/docs/privacy-policy.md
 
 게시자: GitHub anyethernet (https://github.com/anyethernet)

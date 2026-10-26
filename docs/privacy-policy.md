@@ -40,5 +40,8 @@ Windows용 화면 보호기 설치 파일은 GitHub Releases에서 제공합니�
 
 ---
 
-**Play Console privacy policy URL (after push):**  
+**Play Console privacy policy URL (public gist — works while the repo is private):**  
+https://gist.githubusercontent.com/anyethernet/8633eca9a78b92ba97d73dee95a6e06e/raw/privacy-policy.md
+
+**Same file in this repo (requires repo access if private):**  
 https://raw.githubusercontent.com/anyethernet/screen_saver/main/docs/privacy-policy.md
