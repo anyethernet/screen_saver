@@ -1,10 +1,12 @@
 # Privacy Policy — Webcam & Screen Saver / 웹캠 & 화면 보호기
 
-**Publisher:** [anyethernet](https://github.com/anyethernet)  
-**Privacy administrator:** Kim Judong  
-**Contact:** via the GitHub profile [https://github.com/anyethernet](https://github.com/anyethernet) (no separate public email is published here)
+| | |
+| --- | --- |
+| **Publisher / 게시자** | [anyethernet](https://github.com/anyethernet) |
+| **Privacy administrator / 개인정보 처리 관리자** | Kim Judong |
+| **Contact / 문의** | [https://github.com/anyethernet](https://github.com/anyethernet) |
 
-Last updated: 2026-03-27
+Last updated / 최종 수정: 2026-10-27
 
 ---
 
@@ -20,7 +22,7 @@ If you use Tailscale, sign-in and VPN connection stay in the Tailscale app and f
 
 To stop using the app, uninstall it. The developer does not keep separate copies of your video.
 
-Windows screensaver software for this project is distributed from the project’s GitHub Releases page when available.
+Windows screensaver software for this project may be distributed from the project’s GitHub Releases page when available.
 
 ---
 
@@ -32,16 +34,16 @@ Windows screensaver software for this project is distributed from the project’
 **네트워크 권한**은 영상을 보내고 받기 위해 사용합니다.  
 **근처 기기 찾기**는 같은 집 네트워크에서 켜고 끌 기기를 찾기 위해 사용합니다.
 
-Tailscale을 쓰는 경우 로그인과 연결은 Tailscale 앱의 계정으로 이루어지며, 그 계정 정보는 Tailscale의 정책에 따릅니다.
+Tailscale을 쓰는 경우 로그인과 연결은 Tailscale 앱의 계정으로 이루어지며, 그 계정 정보는 [Tailscale 개인정보처리방침](https://tailscale.com/privacy-policy)에 따릅니다.
 
 사용을 멈추면 앱을 삭제하면 됩니다. 개발사 쪽에 별도로 보관된 사용자 영상은 없습니다.
 
-Windows용 화면 보호기 설치 파일은 GitHub Releases에서 제공합니다(저장소·릴리스 공개 설정에 따름).
+Windows용 화면 보호기 설치 파일은 GitHub Releases에서 제공할 수 있습니다(저장소·릴리스 공개 설정에 따름).
 
 ---
 
-**Play Console privacy policy URL (public gist — works while the repo is private):**  
-https://gist.githubusercontent.com/anyethernet/8633eca9a78b92ba97d73dee95a6e06e/raw/privacy-policy.md
+## Public URLs / 공개 주소
 
-**Same file in this repo (requires repo access if private):**  
-https://raw.githubusercontent.com/anyethernet/screen_saver/main/docs/privacy-policy.md
+- **GitHub Pages (Play Console):** https://anyethernet.github.io/privacy-policy/
+- **Public repository:** https://github.com/anyethernet/privacy-policy
+- **Raw Markdown:** https://raw.githubusercontent.com/anyethernet/privacy-policy/main/privacy-policy.md
