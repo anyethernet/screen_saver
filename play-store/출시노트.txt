@@ -1,22 +1,26 @@
-EN (en-US)
-First release of Webcam & Screen Saver.
+[한국어 · ko-KR] 500자 이내
 
-A phone at home sends the camera; watch from your phone away from home.
-Enter only the home camera IP to connect.
-Portrait and landscape follow how the phone is placed.
-Find home devices and turn them on or off from the viewer phone.
-The viewer phone can show the stream as a screensaver.
-While streaming, the home phone screen stays almost black.
-Windows screensaver installer: https://github.com/anyethernet/screen_saver/releases
+웹캠 & 화면 보호기 1.0.2입니다.
 
----
-KO (ko-KR)
-웹캠 & 화면 보호기 첫 출시입니다.
+• 집 폰이 카메라를 보내고, 밖에서는 IP만 넣어 영상을 봅니다
+• 세로·가로 맞춤, 집 기기 켜기/끄기, 폰 화면 보호기
+• Windows 화면 보호기·바탕화면 설치 안내와 다운로드 링크를 앱·스토어 설명에 넣었습니다
+• 영어·한국어(기본: 영어)
 
-집에 둔 폰이 카메라를 보내고, 밖에 있는 내 폰에서 봅니다.
-집 카메라 IP만 넣으면 연결됩니다.
-폰을 세우거나 눕히면 영상도 세로와 가로로 맞춰집니다.
-집 안의 기기를 찾아 밖 폰에서 켜고 끌 수 있습니다.
-보는 폰에서는 영상을 화면 보호기로 띄울 수 있습니다.
-송출 중에는 집 폰 화면을 거의 검게 켜 둡니다.
-Windows 화면 보호기: https://github.com/anyethernet/screen_saver/releases
+Windows PC에서 아래 링크로 설치 파일을 받은 뒤 실행하세요.
+https://github.com/anyethernet/screen_saver/releases/latest/download/RemoteCamSaver-Setup.exe
+개인정보: https://anyethernet.github.io/privacy-policy/Webcam_Saver/
+
+
+[English · en-US] 500 characters max
+
+Webcam & Screen Saver 1.0.2.
+
+• Home phone streams; away, enter only the camera IP
+• Portrait/landscape, home device on/off, phone screensaver
+• Windows screensaver download link added in the app and store listing
+• English and Korean (English default)
+
+On a Windows PC, download and run the installer:
+https://github.com/anyethernet/screen_saver/releases/latest/download/RemoteCamSaver-Setup.exe
+Privacy: https://anyethernet.github.io/privacy-policy/Webcam_Saver/

@@ -19,7 +19,7 @@ class AboutPage extends StatelessWidget {
           Text(text.aboutWindows),
           const SizedBox(height: 16),
           FilledButton(
-            onPressed: () => launchUrl(Uri.parse(windowsReleasesUrl), mode: LaunchMode.externalApplication),
+            onPressed: () => launchUrl(Uri.parse(windowsSetupUrl), mode: LaunchMode.externalApplication),
             child: Text(text.downloadWindows),
           ),
           const SizedBox(height: 28),

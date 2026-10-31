@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import 'app_model.dart';
 
-/// Public Windows installer / releases page (private repo: sign-in may be required).
+/// Public Windows installer (direct latest asset) and releases list.
 const windowsReleasesUrl = 'https://github.com/anyethernet/screen_saver/releases';
 const windowsSetupUrl =
     'https://github.com/anyethernet/screen_saver/releases/latest/download/RemoteCamSaver-Setup.exe';
@@ -33,12 +33,12 @@ class S {
   String get languageLabel => ko ? '언어' : 'Language';
 
   String get homeIntro => ko
-      ? '집에 둔 폰이 카메라를 보냅니다. 밖에 있는 폰에서는 집 카메라 IP만 넣으면 영상을 보고, 집 기기를 켜거나 끌 수 있습니다.'
-      : 'A phone left at home sends the camera. On the phone you carry, enter only the home camera IP to watch and to turn home devices on or off.';
+      ? '집에 둔 폰이 카메라를 보냅니다. 밖에 있는 폰에서는 집 카메라 IP만 넣으면 영상을 보고, 집 기기를 켜거나 끌 수 있습니다. 밖에서는 집 Wi‑Fi IP가 안 통하니, Tailscale을 같은 계정으로 쓰거나 공유기 포트를 열면 됩니다. Tailscale을 쓰면 집 폰에 나온 100. IP를 넣으세요.'
+      : 'A phone left at home sends the camera. On the phone you carry, enter only the home camera IP to watch and to turn home devices on or off. Away from home a Wi‑Fi IP will not work—use Tailscale with the same account, or open a router port. With Tailscale, enter the 100.x IP shown on the home phone.';
 
   String get homeWindows => ko
-      ? '같은 영상은 Windows에서도 화면 보호기와 바탕화면 배경으로 볼 수 있습니다. 설치 파일은 GitHub Releases에서 받습니다. IP만 넣어도 됩니다—집 카메라 IP만 입력하면 포트와 경로가 붙습니다.'
-      : 'The same video can run on Windows as a screensaver and as the desktop background. Download the installer from GitHub Releases. IP-only setup works—enter the home camera IP; port and path are added for you.';
+      ? '같은 영상은 Windows에서도 화면 보호기와 바탕화면 배경으로 볼 수 있습니다. Windows PC에서 아래 링크로 RemoteCamSaver-Setup.exe를 받은 뒤 실행하세요. IP만 넣어도 됩니다—집 카메라 IP만 입력하면 포트와 경로가 붙습니다.\n$windowsSetupUrl'
+      : 'The same video can run on Windows as a screensaver and as the desktop background. On a Windows PC, open the link below to download RemoteCamSaver-Setup.exe, then run it. IP-only setup works—enter the home camera IP; port and path are added for you.\n$windowsSetupUrl';
 
   String get downloadWindows => ko ? 'Windows 설치 파일 받기' : 'Download the Windows installer';
   String get about => ko ? '설명' : 'About';
@@ -200,11 +200,11 @@ class S {
 
   String get aboutTitle => ko ? '이 앱' : 'About this app';
   String get aboutBody => ko
-      ? '웹캠 & 화면 보호기는 집에 남은 안드로이드 폰을 카메라로 쓰고, 밖에 있는 내 폰에서 그 영상을 봅니다. 집 카메라 IP만 넣으면 포트 8787과 영상 경로가 붙습니다. 폰을 세우면 세로, 옆으로 눕히면 가로로 맞춰집니다. 집 안 기기의 켜기와 끄기는 집 폰이 실행합니다.'
-      : 'Webcam & Screen Saver uses an Android phone left at home as the camera, and the phone you carry as the viewer. Enter only the home camera IP. Port 8787 and the video path are added for you. An upright phone sends a tall picture. A phone on its side sends a wide picture. On and off commands for home devices run on the home phone.';
+      ? '웹캠 & 화면 보호기는 집에 남은 안드로이드 폰을 카메라로 쓰고, 밖에 있는 내 폰에서 그 영상을 봅니다. 집 카메라 IP만 넣으면 포트 8787과 영상 경로가 붙습니다. 폰을 세우면 세로, 옆으로 눕히면 가로로 맞춰집니다. 집 안 기기의 켜기와 끄기는 집 폰이 실행합니다. 밖에서 볼 때는 Tailscale을 같은 계정으로 쓰는 것이 가장 쉽고, 공유기 포트포워딩으로도 됩니다.'
+      : 'Webcam & Screen Saver uses an Android phone left at home as the camera, and the phone you carry as the viewer. Enter only the home camera IP. Port 8787 and the video path are added for you. An upright phone sends a tall picture. A phone on its side sends a wide picture. On and off commands for home devices run on the home phone. Away from home, Tailscale with the same account is the easiest option; router port forwarding also works.';
   String get aboutWindows => ko
-      ? 'Windows용 프로그램은 화면 보호기로 영상을 전체 화면에 띄우고, 설정에서 배경으로 보기를 누르면 바탕화면 아이콘 뒤에서도 같은 영상을 보여 줍니다. 마우스를 움직이면 화면 보호기는 꺼지고, 바탕화면 배경은 켜 둔 채로 남습니다. 설치 파일은 GitHub Releases에서 받습니다.'
-      : 'The Windows program can fill the screen as a screensaver. In its settings, Show as background plays the same video behind the desktop icons. Moving the mouse closes the screensaver. The desktop background stays on. Get the installer from GitHub Releases.';
+      ? 'Windows용 프로그램은 화면 보호기로 영상을 전체 화면에 띄우고, 설정에서 배경으로 보기를 누르면 바탕화면 아이콘 뒤에서도 같은 영상을 보여 줍니다. 마우스를 움직이면 화면 보호기는 꺼지고, 바탕화면 배경은 켜 둔 채로 남습니다. Windows PC에서 아래 링크로 설치 파일을 받은 뒤 RemoteCamSaver-Setup.exe를 실행하세요.\n$windowsSetupUrl'
+      : 'The Windows program can fill the screen as a screensaver. In its settings, Show as background plays the same video behind the desktop icons. Moving the mouse closes the screensaver. The desktop background stays on. On a Windows PC, download the installer from the link below and run RemoteCamSaver-Setup.exe.\n$windowsSetupUrl';
 
   String get privacyBody => ko
       ? '웹캠 & 화면 보호기는 개발사 계정을 만들지 않습니다. 영상은 Tailscale 또는 사용자가 연 주소로 집 폰과 보는 폰 사이에서만 이동합니다. 개발사 서버에 영상, 계정, 위치 기록을 저장하지 않습니다.\n\n카메라 권한은 이 폰을 집 카메라로 쓸 때만 사용합니다. 네트워크 권한은 영상을 보내고 받는 데 사용합니다. 근처 기기 찾기는 같은 집 네트워크의 기기를 찾는 데 사용합니다.\n\nTailscale을 쓰면 로그인과 연결은 Tailscale 앱의 계정으로 이루어집니다.\n\nGitHub 계정 anyethernet이 이 앱을 게시합니다.\n개인정보 처리 관리자: Kim Judong\n문의: https://github.com/anyethernet'

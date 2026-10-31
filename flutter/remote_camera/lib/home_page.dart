@@ -44,7 +44,7 @@ class HomePage extends StatelessWidget {
               Text(text.homeWindows, style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: 12),
               OutlinedButton.icon(
-                onPressed: () => launchUrl(Uri.parse(windowsReleasesUrl), mode: LaunchMode.externalApplication),
+                onPressed: () => launchUrl(Uri.parse(windowsSetupUrl), mode: LaunchMode.externalApplication),
                 icon: const Icon(Icons.download),
                 label: Text(text.downloadWindows),
               ),

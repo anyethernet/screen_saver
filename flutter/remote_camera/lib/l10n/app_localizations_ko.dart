@@ -14,11 +14,11 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get homeIntro =>
-      '집에 둔 폰이 카메라를 보냅니다. 밖에 있는 폰에서는 집 카메라 IP만 넣으면 영상을 보고, 집 기기를 켜거나 끌 수 있습니다.';
+      '집에 둔 폰이 카메라를 보냅니다. 밖에 있는 폰에서는 집 카메라 IP만 넣으면 영상을 보고, 집 기기를 켜거나 끌 수 있습니다. 밖에서는 집 Wi‑Fi IP가 안 통하니, Tailscale을 같은 계정으로 쓰거나 공유기 포트를 열면 됩니다. Tailscale을 쓰면 집 폰에 나온 100. IP를 넣으세요.';
 
   @override
   String get homeWindows =>
-      '같은 영상은 Windows에서도 화면 보호기와 바탕화면 배경으로 볼 수 있습니다. 설치 파일은 GitHub Releases에서 받습니다. IP만 넣어도 됩니다—집 카메라 IP만 입력하면 포트와 경로가 붙습니다.';
+      '같은 영상은 Windows에서도 화면 보호기와 바탕화면 배경으로 볼 수 있습니다. Windows PC에서 아래 링크로 RemoteCamSaver-Setup.exe를 받은 뒤 실행하세요. IP만 넣어도 됩니다—집 카메라 IP만 입력하면 포트와 경로가 붙습니다.\nhttps://github.com/anyethernet/screen_saver/releases/latest/download/RemoteCamSaver-Setup.exe';
 
   @override
   String get downloadWindows => 'Windows 설치 파일 받기';
@@ -100,11 +100,11 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get aboutBody =>
-      '웹캠 & 화면 보호기는 집에 남은 안드로이드 폰을 카메라로 쓰고, 밖에 있는 내 폰에서 그 영상을 봅니다. 집 카메라 IP만 넣으면 포트 8787과 영상 경로가 붙습니다. 폰을 세우면 세로, 옆으로 눕히면 가로로 맞춰집니다. 집 안 기기의 켜기와 끄기는 집 폰이 실행합니다.';
+      '웹캠 & 화면 보호기는 집에 남은 안드로이드 폰을 카메라로 쓰고, 밖에 있는 내 폰에서 그 영상을 봅니다. 집 카메라 IP만 넣으면 포트 8787과 영상 경로가 붙습니다. 폰을 세우면 세로, 옆으로 눕히면 가로로 맞춰집니다. 집 안 기기의 켜기와 끄기는 집 폰이 실행합니다. 밖에서 볼 때는 Tailscale을 같은 계정으로 쓰는 것이 가장 쉽고, 공유기 포트포워딩으로도 됩니다.';
 
   @override
   String get aboutWindows =>
-      'Windows용 프로그램은 화면 보호기로 영상을 전체 화면에 띄우고, 설정에서 배경으로 보기를 누르면 바탕화면 아이콘 뒤에서도 같은 영상을 보여 줍니다. 마우스를 움직이면 화면 보호기는 꺼지고, 바탕화면 배경은 켜 둔 채로 남습니다. 설치 파일은 GitHub Releases에서 받습니다.';
+      'Windows용 프로그램은 화면 보호기로 영상을 전체 화면에 띄우고, 설정에서 배경으로 보기를 누르면 바탕화면 아이콘 뒤에서도 같은 영상을 보여 줍니다. 마우스를 움직이면 화면 보호기는 꺼지고, 바탕화면 배경은 켜 둔 채로 남습니다. Windows PC에서 아래 링크로 설치 파일을 받은 뒤 RemoteCamSaver-Setup.exe를 실행하세요.\nhttps://github.com/anyethernet/screen_saver/releases/latest/download/RemoteCamSaver-Setup.exe';
 
   @override
   String get privacyBody =>

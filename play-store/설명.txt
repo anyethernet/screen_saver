@@ -1,0 +1,52 @@
+[한국어]
+
+웹캠 & 화면 보호기는 집에 남아 있는 안드로이드 폰을 카메라로 쓰고, 밖에 있는 내 폰에서 그 영상을 보는 앱입니다.
+
+집에서는 남는 폰이 카메라를 켜 두고 영상을 보냅니다. 폰을 세우면 세로로, 옆으로 눕히면 가로로 영상이 맞춰집니다. 송출 중에는 화면을 거의 검게 켜 두어, 전원 버튼으로 화면을 꺼서 카메라가 멈추는 일을 줄입니다.
+
+같은 집 안의 조명 같은 기기는 집 카메라 폰이 찾아 두고, 밖에서는 켜기와 끄기만 요청합니다. 실제 조작은 집 안의 카메라 폰이 실행합니다.
+
+밖에서는 집 카메라 IP만 넣으면 연결됩니다. 포트와 영상 경로는 자동으로 붙습니다. 영상을 보면서 기기를 고르고 켜거나 끌 수 있습니다. 보는 쪽 폰에서는 그 영상을 화면 보호기로 띄울 수 있습니다.
+
+Windows 화면 보호기·바탕화면 배경(PC에서 받기)
+같은 영상을 Windows PC에서 화면 보호기나 바탕화면 배경으로 볼 수 있습니다. Windows PC 브라우저에서 아래 링크를 열면 RemoteCamSaver-Setup.exe가 바로 내려받습니다. 받은 파일을 실행해 설치한 뒤, 설치 프로그램에서 화면 보호기·바탕화면·둘 다를 고르면 됩니다. 설정에서는 집 카메라 IP만 넣으면 됩니다.
+직접 다운로드:
+https://github.com/anyethernet/screen_saver/releases/latest/download/RemoteCamSaver-Setup.exe
+릴리스 목록(버전·변경 내용):
+https://github.com/anyethernet/screen_saver/releases
+Windows에서 “알 수 없는 게시자” 경고가 나오면 추가 정보를 누른 뒤 실행을 선택하면 됩니다(자체 서명).
+
+밖에서는 집 Wi‑Fi IP(192.168 등)가 통하지 않습니다. 연결은 두 가지입니다.
+· Tailscale(권장): Play 스토어에서 Tailscale을 설치하고, 집 폰·밖 폰·Windows PC를 같은 계정으로 로그인합니다. 공유기 포트를 열지 않아도 됩니다. 집 카메라에 나온 100.으로 시작하는 IP를 넣으면 됩니다.
+· 공유기 포트포워딩: 집의 외부 IP를 넣습니다. 기본 포트는 8787입니다.
+
+영상은 개발사 서버에 저장하지 않습니다. 집 카메라 폰과 보는 기기 사이에서만 이동합니다.
+
+개인정보처리방침: https://anyethernet.github.io/privacy-policy/Webcam_Saver/
+
+
+[English]
+
+Webcam & Screen Saver turns a spare Android phone at home into a camera, and the phone you carry into a viewer.
+
+At home, the spare phone streams the camera. Hold it upright for portrait or on its side for landscape. While streaming, the screen stays nearly black so turning the display off with the power button is less likely to stop the camera.
+
+Devices such as lights are discovered on the home camera phone. Away from home you only send on/off requests—the home phone runs the command on the local network.
+
+Away from home, enter only the home camera IP. The port and video path are added automatically. Watch live video, control devices, and optionally show the stream as a phone screensaver.
+
+Windows screensaver / desktop background (download on your PC)
+The same stream can run on a Windows PC as a screensaver or desktop background. On your Windows PC, open the link below to download RemoteCamSaver-Setup.exe. Run the installer and choose screensaver, wallpaper, or both. In settings, enter only the home camera IP.
+Direct download:
+https://github.com/anyethernet/screen_saver/releases/latest/download/RemoteCamSaver-Setup.exe
+Release notes and older versions:
+https://github.com/anyethernet/screen_saver/releases
+If Windows shows an “Unknown publisher” warning, choose More info, then Run anyway (self-signed installer).
+
+Away from home, a regular home Wi‑Fi IP (such as 192.168.x) will not work. Two connection options:
+· Tailscale (recommended): install Tailscale from the Play Store and sign the home phone, the phone you carry, and your Windows PC into the same account—no router port forwarding. Enter the 100.x address shown on the home camera.
+· Router port forwarding: use the home public IP. Default port is 8787.
+
+Video is not stored on developer servers. It moves only between the home camera phone and the viewing device.
+
+Privacy policy: https://anyethernet.github.io/privacy-policy/Webcam_Saver/

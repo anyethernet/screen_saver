@@ -1,35 +1,23 @@
 # Windows downloads — Webcam & Screen Saver
 
-## Latest installer
+Public repository: https://github.com/anyethernet/screen_saver
 
 - **Releases page:** https://github.com/anyethernet/screen_saver/releases
-- **Preferred asset names:**
+- **Assets on each release:**
   - `RemoteCamSaver-Setup.exe` (English file name)
-  - `원격카메라-설치.exe` (same build, Korean file name)
+  - `RemoteCamSaver-Setup-ko.exe` (same installer, Korean file name)
 
-### Direct “latest” link (works when the release asset exists)
+### Direct “latest” link
 
 https://github.com/anyethernet/screen_saver/releases/latest/download/RemoteCamSaver-Setup.exe
 
-## Visibility note
+Use this URL in the Play Store listing and in the Android app. Anyone can download without signing in to GitHub.
 
-This repository has historically been **private**. On a private repository:
+### Build locally
 
-- Collaborators with access can download release assets while signed in to GitHub.
-- Anonymous / public Play Store users **cannot** download private release assets.
-
-To make the Windows installer publicly downloadable without a separate host:
-
-1. Make the repository **public**, **or**
-2. Keep the repo private and host the installer on a public URL (GitHub Pages static file, object storage, etc.), then update the in-app link.
-
-Until the repo or asset is public, the Android app still links to the Releases page above so signed-in users can fetch the installer.
-
-## Build locally
-
-```bat
+```
 cd windows\RemoteCamSaver
-build-installer.bat
+# build Setup with the project scripts / Visual Studio installer project
 ```
 
-Output: `windows\RemoteCamSaver\dist\RemoteCamSaver-Setup.exe` and `원격카메라-설치.exe`.
+Output: `windows\RemoteCamSaver\dist\RemoteCamSaver-Setup.exe`

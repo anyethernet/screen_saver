@@ -85,7 +85,7 @@ class _ViewerSettingsPageState extends State<ViewerSettingsPage> {
               Text(text.homeWindows),
               const SizedBox(height: 8),
               OutlinedButton.icon(
-                onPressed: () => launchUrl(Uri.parse(windowsReleasesUrl), mode: LaunchMode.externalApplication),
+                onPressed: () => launchUrl(Uri.parse(windowsSetupUrl), mode: LaunchMode.externalApplication),
                 icon: const Icon(Icons.download),
                 label: Text(text.downloadWindows),
               ),

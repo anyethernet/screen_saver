@@ -14,11 +14,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeIntro =>
-      'A phone left at home sends the camera. On the phone you carry, enter only the home camera IP to watch and to turn home devices on or off.';
+      'A phone left at home sends the camera. On the phone you carry, enter only the home camera IP to watch and to turn home devices on or off. Away from home a Wi‑Fi IP will not work—use Tailscale with the same account, or open a router port. With Tailscale, enter the 100.x IP shown on the home phone.';
 
   @override
   String get homeWindows =>
-      'The same video can run on Windows as a screensaver and as the desktop background. Download the installer from GitHub Releases. IP-only setup works—enter the home camera IP; port and path are added for you.';
+      'The same video can run on Windows as a screensaver and as the desktop background. On a Windows PC, open the link below to download RemoteCamSaver-Setup.exe, then run it. IP-only setup works—enter the home camera IP; port and path are added for you.\nhttps://github.com/anyethernet/screen_saver/releases/latest/download/RemoteCamSaver-Setup.exe';
 
   @override
   String get downloadWindows => 'Download the Windows installer';
@@ -101,11 +101,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutBody =>
-      'Webcam & Screen Saver uses an Android phone left at home as the camera, and the phone you carry as the viewer. Enter only the home camera IP. Port 8787 and the video path are added for you. An upright phone sends a tall picture. A phone on its side sends a wide picture. On and off commands for home devices run on the home phone.';
+      'Webcam & Screen Saver uses an Android phone left at home as the camera, and the phone you carry as the viewer. Enter only the home camera IP. Port 8787 and the video path are added for you. An upright phone sends a tall picture. A phone on its side sends a wide picture. On and off commands for home devices run on the home phone. Away from home, Tailscale with the same account is the easiest option; router port forwarding also works.';
 
   @override
   String get aboutWindows =>
-      'The Windows program can fill the screen as a screensaver. In its settings, Show as background plays the same video behind the desktop icons. Moving the mouse closes the screensaver. The desktop background stays on. Get the installer from GitHub Releases.';
+      'The Windows program can fill the screen as a screensaver. In its settings, Show as background plays the same video behind the desktop icons. Moving the mouse closes the screensaver. The desktop background stays on. On a Windows PC, download the installer from the link below and run RemoteCamSaver-Setup.exe.\nhttps://github.com/anyethernet/screen_saver/releases/latest/download/RemoteCamSaver-Setup.exe';
 
   @override
   String get privacyBody =>
